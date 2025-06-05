@@ -9,17 +9,15 @@ df['Date'] = pd.to_datetime(df['Date'])
 
 @app.get("/")
 def root():
-    return {"message": "Welcome to the India Air Quality API"}
+    return {"message": "India Air Quality API for the Kaggle Dataset using FastAPI: https://www.kaggle.com/datasets/rohanrao/air-quality-data-in-india"}
 
 @app.get("/cities")
 def get_cities():
-    """Return a sorted list of unique cities."""
     cities = df['City'].dropna().unique().tolist()
     return {"cities": sorted(cities)}
 
 @app.get("/city/{city_name}")
 def get_city_data(city_name: str):
-    """Return recent air quality data for a specific city."""
     city_df = df[df['City'].str.lower() == city_name.lower()]
     if city_df.empty:
         return {"error": "City not found"}
